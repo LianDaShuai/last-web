@@ -18,9 +18,9 @@ Vue.use(VueAxios,axios);
 import store from '@/store/store.js'
 
 //导入mui
-import './assets/dist/css/mui.css'
-import mui from './assets/dist/js/mui.js'
-Vue.prototype.mui = mui
+// import './assets/dist/css/mui.css'
+// import mui from './assets/dist/js/mui.js'
+// Vue.prototype.mui = mui
 
 //导入mockjs
 require('./mock.js')

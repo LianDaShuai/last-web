@@ -12,7 +12,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: "HelloWorld",
@@ -32,10 +31,9 @@ export default {
      async downGoodsList(){
       let res = await this.api.getGoodsList()
       // console.log("商品数据=")
-      console.log(res.data)
-
+      // console.log(res.data)
       let list = res.data
-      for(var item of list){
+       for(var item of list){
         item.img_url = this.imagePrefix+item.img_url
       }
       this.goodsList = list

@@ -1,8 +1,9 @@
 import request from './request.js'
 
 // var classListUrl = 'apis/class'
-var classListUrl = '/news/index'
-var goodsListUrl = '/index/list'
+var classListUrl = 'http://127.0.0.1:3000/mains'
+var goodsListUrl = 'http://127.0.0.1:3000/goods'
+var searchListUrl = 'http://127.0.0.1:3000/goods/search'
 
 //下载轮播图数据
 function getClassList(params){
@@ -21,7 +22,18 @@ function getGoodsList(params){
     })
 }
 
+//搜索商品
+function getSearchList(params){
+    return request.request({
+        url:searchListUrl,
+        method:"get",
+        params:params
+    })
+}
+
+
 export default{
     getClassList,
-    getGoodsList
+    getGoodsList,
+    getSearchList
 }

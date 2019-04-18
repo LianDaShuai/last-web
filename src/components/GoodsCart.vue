@@ -2,7 +2,7 @@
   <div class="cart-box">
     <div class="cart-title">
       <p class="title">购物车</p>
-      <p class="message">编辑</p>
+      <p class="message" @click="isShow=2">编辑</p>
       <span></span>
     </div>
     <div class="cart-content">
@@ -30,11 +30,11 @@
         <input type="checkbox" v-model="isAllSelect" @change="dealAllSelect">
         全选
       </div>
-      <div class="cart-calculate">
-      
+      <div class="cart-calculate" v-if="isShow==1">
         <div class="balance">去结算</div>
-          <div>合计：￥{{allPrice}}元</div>
+        <div>合计：￥{{allPrice}}元</div>
       </div>
+      <div class="delete" @click="dealDelete" v-if="isShow==2">删除</div>
     </div>
   </div>
 </template>
@@ -45,34 +45,33 @@ export default {
   data() {
     return {
       cartList: [],
-      imagePrefix: "http://127.0.0.1/project/guoxing/",
+      imagePrefix: "http://test.lianshuaishuai.com/",
       value: 1,
       isAllSelect: false,
-      // num:JSON.parse(window.localStorage.getItem('goodsCart')).num
+      isShow:1
     };
   },
-  computed:{
-    allPrice(){
-					//如果商品选中,则商品数量加1
-					var price = 0
-					for(var item of this.cartList){
-						
-							if(item.isSelect){
-								price += item.all_price_box* item.num
-							}
-					}
-					return price
-				}
+  computed: {
+    allPrice() {
+      //如果商品选中,则商品数量加1
+      var price = 0;
+      for (var item of this.cartList) {
+        if (item.isSelect) {
+          price += item.all_price_box * item.num;
+        }
+      }
+      return price;
+    }
   },
   created() {
     this.downCartList();
   },
   methods: {
     async downCartList() {
-      console.log("---------downCartList----------")
+      console.log("---------downCartList----------");
       //下载购物车列表
-      if(!window.localStorage.login){
-        return
+      if (!window.localStorage.login) {
+        return;
       }
       var user_id = JSON.parse(window.localStorage.getItem("user")).id;
       // console.log("user_id=" + user_id);
@@ -86,50 +85,48 @@ export default {
         item.isSelect = false;
       }
       this.cartList = list;
-      console.log("购物车数量="+this.cartList.length)
+      console.log("购物车数量=" + this.cartList.length);
     },
     //点击数量-1
     dealSub(index) {
-      console.log(index)
+      console.log(index);
       var shop = this.cartList[index];
 
       var newNum = shop.num - 1;
       if (newNum > 0) {
         shop.num = newNum;
       }
-      this.setCartNum(index)
+      this.setCartNum(index);
     },
     //点击数量+1
     dealAdd(index) {
       //  console.log(index)
       var shop = this.cartList[index];
       shop.num += 1;
-      this.setCartNum(index)
+      this.setCartNum(index);
     },
 
     //点击更改购物车商品数量
-    async setCartNum(index){
-      console.log("------更改商品数量-------")
-      console.log(this.cartList)
-      var dict ={
+    async setCartNum(index) {
+      console.log("------更改商品数量-------");
+      console.log(this.cartList);
+      var dict = {
         user_id: this.cartList[index].user_id,
-        goods_id : this.cartList[index].goods_id,
-        number:this.cartList[index].num
-      }
-      console.log(dict)
-      let res = await this.api.modifyCartNum(dict)
-      console.log(res)
+        goods_id: this.cartList[index].goods_id,
+        number: this.cartList[index].num
+      };
+      console.log(dict);
+      let res = await this.api.modifyCartNum(dict);
+      console.log(res);
     },
     //点击单个商品选择
     dealSelectItem(index) {
-   
       // 默认全选按钮选中
       var flag = true;
       for (var item of this.cartList) {
         // console.log(item);
 
         if (item.isSelect == false) {
-         
           flag = false;
         }
       }
@@ -140,6 +137,27 @@ export default {
       for (var item of this.cartList) {
         item.isSelect = this.isAllSelect;
       }
+    },
+    //点击删除按钮删除商品
+    async dealDelete() {
+      
+      for(var item of this.cartList){
+        if(item.isSelect){//说明商品被选中
+        
+          var dict = {
+            goods_id:item.goods_id,
+            user_id:item.user_id
+          }
+          console.log(dict)
+         let res = await this.api.deleteCart(dict)
+         console.log(res)
+         if(res.code==1){
+           this.isShow = 1
+         }
+        }
+        
+      }
+      this.downCartList()
     }
   }
 };
@@ -237,10 +255,16 @@ export default {
   height: 100%;
   line-height: 0.74rem;
 }
-.cart-calculate{
+.cart-calculate {
   flex-grow: 1;
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
+}
+.delete {
+  margin-left: 5rem;
+  border: 1px solid #ff6633;
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.1rem;
 }
 </style>

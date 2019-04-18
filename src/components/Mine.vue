@@ -64,7 +64,7 @@ M<template>
             <img src alt>
             <p>我的运费</p>
             <img src alt>
-            <p>设置</p>
+            <p @click="dealSet">设置</p>
           </div>
            <div>
             <img src alt>
@@ -93,6 +93,11 @@ export default {
     console.log(user.username)
     
     this.user=user
+  },
+  methods:{
+    dealSet(){
+      this.$router.push("login-out")
+    }
   }
 };
 </script>

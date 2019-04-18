@@ -1,15 +1,16 @@
 import request from './request.js'
 
 // var classListUrl = 'apis/class'
-var classListUrl = 'http://test.lianshuaishuai.com:3000/mains'
-var goodsListUrl = 'http://test.lianshuaishuai.com:3000/goods'
-var searchListUrl = 'http://test.lianshuaishuai.com:3000/goods/search'
-var loginUrl = 'http://test.lianshuaishuai.com:3000/users/login'
-var regUrl  ='http://test.lianshuaishuai.com:3000/users/reg'
-var cartUrl = 'http://test.lianshuaishuai.com:3000/mains/getCart'
-var addCartUrl = "http://test.lianshuaishuai.com:3000/mains/addCart"
-var modifyNumUrl = "http://test.lianshuaishuai.com:3000/mains/modifyCart"
-var goodsDetailUrl = 'http://test.lianshuaishuai.com:3000/goods/'
+var classListUrl = 'http://127.0.0.1:3000/mains'
+var goodsListUrl = 'http://127.0.0.1:3000/goods'
+var searchListUrl = 'http://127.0.0.1:3000/goods/search'
+var loginUrl = 'http://127.0.0.1:3000/users/login'
+var regUrl  ='http://127.0.0.1:3000/users/reg'
+var cartUrl = 'http://127.0.0.1:3000/mains/getCart'
+var addCartUrl = "http://127.0.0.1:3000/mains/addCart"
+var modifyNumUrl = "http://127.0.0.1:3000/mains/modifyCart"
+var goodsDetailUrl = 'http://127.0.0.1:3000/goods/'
+var deleteCartUrl = "http://127.0.0.1:3000/mains/deleteCart"
 
 //下载轮播图数据
 function getClassList(params){
@@ -86,6 +87,14 @@ function getGoodsDetail(params){
     })
 }
 
+function deleteCart(params){
+    return request.request({
+        url:deleteCartUrl,
+        method:"post",
+        params:params
+    })
+}
+
 
 export default{
     getClassList,
@@ -96,5 +105,6 @@ export default{
     getCartList,
     addCart,
     modifyCartNum,
-    getGoodsDetail
+    getGoodsDetail,
+    deleteCart
 }

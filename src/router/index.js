@@ -11,6 +11,7 @@ import Search from '@/components/Search'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import GoodsDetail from '@/components/Goods/GoodsDetail'
+import LoginOut from '@/components/login/LoginOut'
 
 import store from '@/store/store'
 
@@ -64,6 +65,11 @@ var r = new Router({
       path: '/goodsDetail/:id',
       name: 'goodsDetail',
       component: GoodsDetail
+    },
+    {
+      path: '/login-out',
+      name: 'login-out',
+      component: LoginOut
     }
   ]
 })

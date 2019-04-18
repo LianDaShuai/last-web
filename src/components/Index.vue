@@ -100,10 +100,10 @@ export default {
       let res = await this.api.getClassList();
       console.log(res.data);
 
-      // for(var item of res.data){
-      //   // console.log(item)
-      //   item.img_url = this.imagePrefix+item.img_url
-      // }
+      for(var item of res.data){
+        // console.log(item)
+        item.img_url = this.imagePrefix+item.img_url
+      }
       this.index_top = res.data;
 
       this.$nextTick(() => {

@@ -95,7 +95,7 @@ export default {
               }
             }
             console.log(lately);
-            lately.push(this.Lately);
+            lately.unshift(this.Lately);
             localStorage.setItem("latelyList", JSON.stringify(lately));
             this.LatelyList = JSON.parse(localStorage.getItem("latelyList"));
           } else {

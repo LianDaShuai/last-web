@@ -1,6 +1,6 @@
 <template>
   <div class="login-out">
-   
+   <div @click="dealClear">退出登录</div>
   </div>
 </template>
 
@@ -10,6 +10,13 @@ export default {
   data () {
     return {
      
+    }
+  },
+  methods:{
+    dealClear(){//点击清除登录
+      localStorage.removeItem("login")
+      localStorage.removeItem("user")
+      this.$router.push('/login')
     }
   }
 }

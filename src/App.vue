@@ -26,6 +26,9 @@ export default {
   },
   methods:{
     async cartList(){
+      if(!localStorage.login){
+        return
+      }
       var user_id = JSON.parse(window.localStorage.getItem("user")).id;
       // console.log("user_id=" + user_id);
       var dict = {

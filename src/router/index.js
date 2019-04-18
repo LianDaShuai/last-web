@@ -4,16 +4,21 @@ import HelloWorld from '@/components/HelloWorld'
 
 
 import Index from '@/components/Index'
-import GoodsCar from '@/components/GoodsCar'
+import GoodsCart from '@/components/GoodsCart'
 import Order from '@/components/Order'
 import Mine from '@/components/Mine'
 import Search from '@/components/Search'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import GoodsDetail from '@/components/Goods/GoodsDetail'
+
+import store from '@/store/store'
+
+
 
 Vue.use(Router)
 
-export default new Router({
+var r = new Router({
   routes: [
     {
       path: '/',
@@ -26,9 +31,9 @@ export default new Router({
       component: Index
     },
     {
-      path: '/goods-car',
-      name: 'goods-car',
-      component: GoodsCar
+      path: '/goods-cart',
+      name: 'goods-cart',
+      component: GoodsCart
     },
     {
       path: '/order',
@@ -54,6 +59,45 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/goodsDetail/:id',
+      name: 'goodsDetail',
+      component: GoodsDetail
     }
   ]
 })
+
+//router定义的下面, 每个路由跳转之前, 执行回调函数
+r.beforeEach((to, from, next) => {
+  console.log(to.path)
+  if(to.path == "/mine"){
+    //如果没有登录
+    var isLogin = false
+    if(localStorage.login == undefined || localStorage.login != 1){
+      isLogin = true
+    }
+  }
+  if(isLogin){
+    r.push('/login')
+  }else{
+    next()
+  }
+  store.commit("setInType",false)
+  //查看页面跳转的路径
+  if(to.path =="/index"){
+    store.commit("setInType",true)
+  }
+  if(to.path =="/goods-cart"){
+    store.commit("setInType",true)
+  }
+  if(to.path =="/order"){
+    store.commit("setInType",true)
+  }
+  if(to.path =="/mine"){
+    store.commit("setInType",true)
+  }
+})
+
+
+export default r;

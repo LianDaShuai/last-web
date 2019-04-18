@@ -21,7 +21,7 @@ export default {
        page:1,
        count:5,
        newGoodsList:[],
-       imagePrefix:'http://127.0.0.1/project/guoxing/'
+       imagePrefix:'http://test.lianshuaishuai.com/'
     };
   },
   created(){

@@ -1,13 +1,16 @@
 <template>
   <div class="all-goods">
-    <div class="goods-item" v-for="(item,index) in newGoodsList" :key="index">
+    <div class="goods-item" v-for="(item,index) in newGoodsList" :key="index" @click="dealGoodsDetail(item.id)">
       <div class="goods-img">
         <img :src="item.img_url" alt>
       </div>
       <div class="goods-right">
         <div class="goods-name">{{item.name}}</div>
         <div class="unit-price">{{item.price_kg}}元/公斤 | {{item.box_kg}}公斤/箱</div>
-        <div class="goods-price">￥{{item.all_price_box}}/箱</div>
+        <div class="goods-price">
+          ￥{{item.all_price_box}}/箱
+          <button @click.stop="dealAddCart(index)">加入购物车</button>
+        </div>
       </div>
     </div>
   </div>
@@ -18,33 +21,66 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-       goodsList:[],
-       page:1,
-       count:5,
-       newGoodsList:[],
-       imagePrefix:'http://127.0.0.1/project/guoxing/'
+      goodsList: [],
+      page: 1,
+      count: 5,
+      newGoodsList: [],
+      imagePrefix: "http://test.lianshuaishuai.com/",
+      num:0
     };
   },
-  created(){
-    this.downGoodsList()
+  created() {
+    this.downGoodsList();
   },
-  methods:{
-     async downGoodsList(){
-      let res = await this.api.getGoodsList()
+  methods: {
+    async downGoodsList() {
+      let res = await this.api.getGoodsList();
       // console.log("商品数据=")
-      console.log(res.data)
+      console.log(res.data);
 
-      let list = res.data
-      for(var item of list){
-        item.img_url = this.imagePrefix+item.img_url
+      let list = res.data;
+      for (var item of list) {
+        item.img_url = this.imagePrefix + item.img_url;
       }
-      this.goodsList = list
-      this.subArray()
+      this.goodsList = list;
+      this.subArray();
     },
-    subArray(){
-       let start = (this.page - 1) * this.count;
-      let newList = this.goodsList.slice(start,start+this.count)
-      this.newGoodsList = newList
+    subArray() {
+      let start = (this.page - 1) * this.count;
+      let newList = this.goodsList.slice(start, start + this.count);
+      this.newGoodsList = newList;
+    },
+    //点击添加购物车
+    async dealAddCart(index) {
+      // if(window.localStorage.user){
+      //    var goods = {}
+      // goods.id = this.goodsList[index].id
+      // goods.num = this.num+=1
+
+      // localStorage.setItem("goodsCart",JSON.stringify(goods))
+
+      // }else{
+      //   this.$router.push("/login");
+      // }
+     
+
+      if (window.localStorage.user) {
+      
+        var dict = {
+          user_id: JSON.parse(window.localStorage.getItem("user")).id,
+          goods_id: this.goodsList[index].id,
+          pay_state: this.goodsList[index].pay_state
+        };
+        let res = await this.api.addCart(dict);
+        console.log(res);
+      } else {
+        this.$router.push("/login");
+      }
+    },
+    //点击跳转详情页
+    dealGoodsDetail(id){
+      console.log("商品id="+id)
+      this.$router.push('/goodsDetail/'+id)
     }
   }
 };
@@ -56,33 +92,36 @@ export default {
   font-size: 0.16rem;
 }
 /* 全部商品 */
-.goods-item{
+.goods-item {
   display: flex;
   margin-left: 0.23rem;
   margin-top: 0.23rem;
   border-bottom: 1px solid #f7f7f7;
 }
-.goods-img{
+.goods-img {
   width: 2.06rem;
   height: 2.06rem;
   margin: 0 0.23rem 0.23rem 0;
 }
-.goods-img img{
+.goods-img img {
   width: 100%;
   height: 100%;
 }
-.goods-right{
+.goods-right {
   line-height: 0.7rem;
 }
-.goods-name{
+.goods-name {
   font-size: 0.28rem;
   font-weight: bold;
 }
-.unit-price{
+.unit-price {
   color: #888;
 }
-.goods-price{
+.goods-price {
   color: #ff6633;
   font-size: 0.3rem;
+}
+.goods-price button {
+  margin-left: 0.5rem;
 }
 </style>

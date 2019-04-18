@@ -67,7 +67,7 @@ export default {
       Lately: "",
       LatelyList: [],
       searchGoodsList: [],
-      imagePrefix: "http://127.0.0.1/project/guoxing/"
+      imagePrefix: "http://test.lianshuaishuai.com/"
     };
   },
   created() {

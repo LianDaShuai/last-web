@@ -1,6 +1,6 @@
 <template>
-  <div class="hello">
-   goodscar
+  <div class="login-out">
+   
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .hello{
+  .login-out{
     font-size: 0.16rem;
   }
 </style>

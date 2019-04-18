@@ -6,17 +6,17 @@
     <div class="login-ipt">
       <div>
         <span></span>
-        <input type="text" placeholder="手机号码">
+        <input type="text" placeholder="手机号码" v-model="phone">
          <span></span>
       </div>
       <div>
          <span></span>
-        <input type="password" placeholder="请输入密码">
+        <input type="password" placeholder="请输入密码" v-model="password">
          <span></span>
       </div>
       <p>忘记密码</p>
     </div>
-    <div class="login-btn">登录</div>
+    <div class="login-btn" @click="dealLogin">登录</div>
     <div class="register" @click="dealRegister">注册</div>
   </div>
 </template>
@@ -25,12 +25,29 @@
 export default {
   name: "HelloWorld",
   data() {
-    return {};
+    return {
+      phone:'',
+      password:''
+    };
   },
   methods:{
     //点击注册跳转注册页面
     dealRegister(){
       this.$router.push("/register")
+    },
+    //点击登录
+    async dealLogin(){
+      var dict = {
+        phone:this.phone,
+        password:this.password
+      }
+      let res = await this.api.getLogin(dict)
+      console.log(res)
+      if(res.code ==1){
+        localStorage.setItem('user',JSON.stringify(res.user))
+        localStorage.setItem("login",1)
+        this.$router.push('/mine')
+      }
     }
   }
 };

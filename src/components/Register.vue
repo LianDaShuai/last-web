@@ -1,17 +1,17 @@
 <template>
   <div class="register-box">
     <div class="register-title">
-      <p>&lt;</p>
+      <p @click="dealback">&lt;</p>
       <span>注册</span>
     </div>
     <div class="register-ipt">
       <div class="ipt-item">
         <span></span>
-        <input type="text" placeholder="请输入手机号码">
+        <input type="text" placeholder="请输入手机号码" v-model="phone">
       </div>
       <div class="ipt-item">
         <span></span>
-        <input type="text" placeholder="请输入验证码">
+        <input type="text" placeholder="请输入验证码" v-model="code">
         <p>获取验证码</p>
       </div>
       <div class="ipt-item">
@@ -20,10 +20,10 @@
       </div>
       <div class="ipt-item">
         <span></span>
-        <input type="text" placeholder="密码，只能6-20位字符哦~">
+        <input type="text" placeholder="密码，只能6-20位字符哦~" v-model="password">
       </div>
     </div>
-    <div class="register-btn">注册</div>
+    <div class="register-btn" @click="dealReg">注册</div>
     <p class="agreement">*注册则代表同意
       <span>《果星云用户协议》</span>
     </p>
@@ -35,7 +35,27 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-     
+      phone:'',
+      code:'',
+      password:''
+    }
+  },
+  methods:{
+    //点击返回
+    dealback(){
+      this.$router.go("-1")
+    },
+    //点击注册，注册用户
+    async dealReg(){
+      var dict = {
+        phone:this.phone,
+        password:this.password
+      }
+      let res = await this.api.getReg(dict)
+      console.log(res)
+      if(res.code==1){
+        this.$router.push('/login')
+      }
     }
   }
 }
@@ -54,6 +74,15 @@ export default {
     display: flex;
     padding-left: 0.32rem;
   }
+  .register-title p{
+    width: 0.6rem;
+    font-size: 0.4rem;
+  }
+  .register-title span{
+    flex-grow: 1;
+    text-align: center;
+    margin-left: -0.6rem;
+  } 
   .ipt-item{
     display: flex;
     height: 0.76rem;

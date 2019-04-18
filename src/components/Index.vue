@@ -81,7 +81,7 @@ export default {
         { img_url: "../../static/img/apple.jpg", name: "更多" }
       ],
       isShow:1,
-      imagePrefix:'http://127.0.0.1/project/guoxing/'
+      imagePrefix:'http://test.lianshuaishuai.com/'
     };
   },
   components:{
@@ -100,10 +100,10 @@ export default {
       let res = await this.api.getClassList();
       console.log(res.data);
 
-      for(var item of res.data){
-        // console.log(item)
-        item.img_url = this.imagePrefix+item.img_url
-      }
+      // for(var item of res.data){
+      //   // console.log(item)
+      //   item.img_url = this.imagePrefix+item.img_url
+      // }
       this.index_top = res.data;
 
       this.$nextTick(() => {

@@ -1,13 +1,14 @@
 <template>
-  <div class="tabbar">
+  <div class="tabbar" v-if="in_type==true">
     <div class="tabbar-item">
       <router-link to="/index">
         <span class="footer-img1"></span>
         首页
       </router-link>
-      <router-link to="/goods-car">
+      <router-link to="/goods-cart" class="tabbar-cart">
         <span class="footer-img2"></span>
         购物车
+        <i class="badge">{{num}}</i>
       </router-link>
       <router-link to="/order">
         <span class="footer-img3"></span>订单
@@ -22,8 +23,19 @@
 <script>
 export default {
   name: "HelloWorld",
+  props:["num"],
   data() {
-    return {};
+    return {
+
+    };
+  },
+  computed:{
+    in_type(){
+      return this.$store.state.in_type
+    }
+  },
+  created(){
+
   }
 };
 </script>
@@ -93,5 +105,22 @@ a {
 .router-link-exact-active .footer-img4{
   background-image: url('../../static/img/footer005.png');
   background-size: 100% 100%;
+}
+/* 购物车数量显示 */
+.tabbar-cart{
+  position: relative;
+}
+.badge{
+  display: inline-block;
+  width: 0.3rem;
+  height: 0.3rem;
+  background: #ff6f32;
+  border-radius: 50%;
+  position: absolute;
+  color: #fff;
+  text-align: center;
+  line-height: 0.3rem;
+  font-style: normal;
+  right: 0;
 }
 </style>
